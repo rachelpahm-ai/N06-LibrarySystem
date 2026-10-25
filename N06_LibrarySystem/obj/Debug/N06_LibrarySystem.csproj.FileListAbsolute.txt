@@ -77,3 +77,7 @@ D:\N06_LibrarySystem\N06_LibrarySystem\obj\Debug\N06_LibrarySystem.csproj.CoreCo
 D:\N06_LibrarySystem\N06_LibrarySystem\obj\Debug\N06_Libr.A440F83B.Up2Date
 D:\N06_LibrarySystem\N06_LibrarySystem\obj\Debug\N06_LibrarySystem.dll
 D:\N06_LibrarySystem\N06_LibrarySystem\obj\Debug\N06_LibrarySystem.pdb
+D:\N06_LibrarySystem\N06_LibrarySystem\bin\EntityFramework.dll
+D:\N06_LibrarySystem\N06_LibrarySystem\bin\EntityFramework.SqlServer.dll
+D:\N06_LibrarySystem\N06_LibrarySystem\bin\EntityFramework.xml
+D:\N06_LibrarySystem\N06_LibrarySystem\bin\EntityFramework.SqlServer.xml
