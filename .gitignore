@@ -1,2 +1,10 @@
-.vs/ 
-packages/ 
+.vs/
+*.user
+*.suo
+packages/
+[Bb]in/
+[Oo]bj/
+*.cache
+*.pdb
+*.dll
+N06_LibrarySystem/obj/Debug/N06_LibrarySystem.csproj.AssemblyReference.cache
