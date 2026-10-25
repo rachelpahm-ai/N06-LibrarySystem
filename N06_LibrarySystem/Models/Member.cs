@@ -18,6 +18,7 @@ namespace N06_LibrarySystem.Models
         public Member()
         {
             this.Loan = new HashSet<Loan>();
+            this.Reservation = new HashSet<Reservation>();
         }
     
         public int MemberID { get; set; }
@@ -30,5 +31,7 @@ namespace N06_LibrarySystem.Models
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Loan> Loan { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<Reservation> Reservation { get; set; }
     }
 }

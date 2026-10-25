@@ -23,6 +23,7 @@
     <NavigationProperty Name="Category" Relationship="Self.FK__Book__CategoryID__3D5E1FD2" FromRole="Book" ToRole="Category" />
     <NavigationProperty Name="LoanDetail" Relationship="Self.FK__LoanDetai__BookI__534D60F1" FromRole="Book" ToRole="LoanDetail" />
     <NavigationProperty Name="Author" Relationship="Self.Book_Author" FromRole="Book" ToRole="Author" />
+    <NavigationProperty Name="Reservation" Relationship="LibraryManagementModel.FK__Reservati__BookI__5BE2A6F2" FromRole="Book" ToRole="Reservation" />
   </EntityType>
   <EntityType Name="Category">
     <Key>
@@ -69,6 +70,7 @@
     <Property Name="CardExpiryDate" Type="DateTime" Precision="0" />
     <Property Name="IsLocked" Type="Boolean" />
     <NavigationProperty Name="Loan" Relationship="Self.FK__Loan__MemberID__4AB81AF0" FromRole="Member" ToRole="Loan" />
+    <NavigationProperty Name="Reservation" Relationship="LibraryManagementModel.FK__Reservati__Membe__5AEE82B9" FromRole="Member" ToRole="Reservation" />
   </EntityType>
   <Association Name="FK__Book__CategoryID__3D5E1FD2">
     <End Role="Category" Type="Self.Category" Multiplicity="1" />
@@ -151,5 +153,60 @@
       <End Role="Author" EntitySet="Author" />
       <End Role="Book" EntitySet="Book" />
     </AssociationSet>
+    <EntitySet Name="Account" EntityType="LibraryManagementModel.Account" />
+    <EntitySet Name="Reservation" EntityType="LibraryManagementModel.Reservation" />
+    <AssociationSet Name="FK__Reservati__BookI__5BE2A6F2" Association="LibraryManagementModel.FK__Reservati__BookI__5BE2A6F2">
+      <End Role="Book" EntitySet="Book" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Reservati__Membe__5AEE82B9" Association="LibraryManagementModel.FK__Reservati__Membe__5AEE82B9">
+      <End Role="Member" EntitySet="Member" />
+      <End Role="Reservation" EntitySet="Reservation" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="Account">
+    <Key>
+      <PropertyRef Name="AccountID" />
+    </Key>
+    <Property Name="AccountID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Username" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Password" Type="String" Nullable="false" MaxLength="255" FixedLength="false" Unicode="false" />
+    <Property Name="Role" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+  </EntityType>
+  <EntityType Name="Reservation">
+    <Key>
+      <PropertyRef Name="ReserveID" />
+    </Key>
+    <Property Name="ReserveID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="MemberID" Type="Int32" Nullable="false" />
+    <Property Name="BookID" Type="Int32" Nullable="false" />
+    <Property Name="ReserveDate" Type="DateTime" Precision="3" />
+    <Property Name="Status" Type="String" MaxLength="50" FixedLength="false" Unicode="true" />
+    <NavigationProperty Name="Book" Relationship="LibraryManagementModel.FK__Reservati__BookI__5BE2A6F2" FromRole="Reservation" ToRole="Book" />
+    <NavigationProperty Name="Member" Relationship="LibraryManagementModel.FK__Reservati__Membe__5AEE82B9" FromRole="Reservation" ToRole="Member" />
+  </EntityType>
+  <Association Name="FK__Reservati__BookI__5BE2A6F2">
+    <End Type="LibraryManagementModel.Book" Role="Book" Multiplicity="1" />
+    <End Type="LibraryManagementModel.Reservation" Role="Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Book">
+        <PropertyRef Name="BookID" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="BookID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Reservati__Membe__5AEE82B9">
+    <End Type="LibraryManagementModel.Member" Role="Member" Multiplicity="1" />
+    <End Type="LibraryManagementModel.Reservation" Role="Reservation" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Member">
+        <PropertyRef Name="MemberID" />
+      </Principal>
+      <Dependent Role="Reservation">
+        <PropertyRef Name="MemberID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

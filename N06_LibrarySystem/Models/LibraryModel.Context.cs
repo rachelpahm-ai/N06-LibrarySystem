@@ -31,5 +31,7 @@ namespace N06_LibrarySystem.Models
         public virtual DbSet<Loan> Loan { get; set; }
         public virtual DbSet<LoanDetail> LoanDetail { get; set; }
         public virtual DbSet<Member> Member { get; set; }
+        public virtual DbSet<Account> Account { get; set; }
+        public virtual DbSet<Reservation> Reservation { get; set; }
     }
 }

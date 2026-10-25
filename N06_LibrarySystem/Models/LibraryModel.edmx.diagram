@@ -16,6 +16,10 @@
         <AssociationConnector Association="LibraryManagementModel.FK__Loan__MemberID__4AB81AF0" ManuallyRouted="false" />
         <AssociationConnector Association="LibraryManagementModel.FK__LoanDetai__LoanI__52593CB8" ManuallyRouted="false" />
         <AssociationConnector Association="LibraryManagementModel.Book_Author" ManuallyRouted="false" />
+        <EntityTypeShape EntityType="LibraryManagementModel.Account" Width="1.5" PointX="7.375" PointY="0.75" />
+        <EntityTypeShape EntityType="LibraryManagementModel.Reservation" Width="1.5" PointX="5.25" PointY="4.875" />
+        <AssociationConnector Association="LibraryManagementModel.FK__Reservati__BookI__5BE2A6F2" />
+        <AssociationConnector Association="LibraryManagementModel.FK__Reservati__Membe__5AEE82B9" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>
