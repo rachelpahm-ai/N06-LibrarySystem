@@ -103,3 +103,22 @@ INSERT INTO Book_Author (BookID, AuthorID) VALUES
 (6, 1), -- Mắt Biếc: Nguyễn Nhật Ánh
 (7, 2), -- The Clean Coder: Robert C. Martin
 (8, 3); -- Quẳng Gánh Lo Đi Mà Vui Sống: Dale Carnegie
+
+-- 7.Bảng Phân quyền (Account) - Quản lý Role (Admin, Librarian, Reader)
+CREATE TABLE Account (
+    AccountID INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) NOT NULL -- Giá trị: Admin, Librarian, Reader
+);
+
+-- 8.Bảng Đặt trước sách (Reservation) - Chức năng đặt sách trước
+CREATE TABLE Reservation (
+    ReserveID INT IDENTITY(1,1) PRIMARY KEY,
+    MemberID INT NOT NULL,
+    BookID INT NOT NULL,
+    ReserveDate DATETIME DEFAULT GETDATE(),
+    Status NVARCHAR(50) DEFAULT N'Chờ xử lý',
+    FOREIGN KEY (MemberID) REFERENCES Member(MemberID),
+    FOREIGN KEY (BookID) REFERENCES Book(BookID)
+);
