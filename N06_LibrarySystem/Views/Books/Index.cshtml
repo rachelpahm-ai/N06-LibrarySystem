@@ -1,0 +1,332 @@
+﻿@{
+    ViewBag.Title = "Library Dashboard";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .books-row {
+        display: grid !important;
+        grid-template-columns: repeat(5, minmax(0, 1fr)) !important;
+        gap: 12px !important;
+    }
+
+    .book-card {
+        background: #103239 !important;
+        border: 1px solid var(--border) !important;
+        border-radius: 10px !important;
+        padding: 10px !important;
+        overflow: hidden !important;
+    }
+
+    .cover {
+        width: 100% !important;
+        height: 160px !important;
+        object-fit: cover !important;
+        border-radius: 5px !important;
+        display: block !important;
+        background: #20464c;
+    }
+
+    .book-title {
+        font-size: 12px;
+        font-weight: bold;
+        margin: 8px 0 4px;
+        line-height: 1.3;
+        color: #fff;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .book-author {
+        font-size: 11px;
+        color: var(--muted);
+    }
+
+    .book-price {
+        color: var(--yellow);
+        font-weight: bold;
+        font-size: 12px;
+        margin-top: 4px;
+    }
+
+    .section-head {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 18px;
+    }
+
+        .section-head h1 {
+            font-size: 24px;
+        }
+
+        .section-head h2 {
+            font-size: 20px;
+        }
+
+    .action {
+        color: var(--yellow);
+        text-decoration: none;
+        font-size: 13px;
+    }
+
+    .progress {
+        height: 4px;
+        background: #29494d;
+        border-radius: 5px;
+        margin-top: 8px;
+    }
+
+        .progress span {
+            display: block;
+            height: 100%;
+            background: var(--yellow);
+            border-radius: 5px;
+        }
+
+    .progress-label {
+        text-align: right;
+        color: var(--yellow);
+        font-size: 10px;
+        margin-top: 4px;
+    }
+
+    .subject-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .subject {
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        background: linear-gradient(120deg, #12353b, #0d292e);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+    }
+
+    .subject-name {
+        color: var(--yellow);
+        font-size: 13px;
+    }
+
+    .subject-count {
+        margin-left: auto;
+        text-align: right;
+        color: var(--yellow);
+        font-size: 16px;
+        font-weight: bold;
+    }
+
+        .subject-count small {
+            display: block;
+            font-size: 9px;
+            color: var(--muted);
+            font-weight: normal;
+        }
+
+    .subject.featured {
+        background: var(--yellow);
+        color: #172a2c;
+    }
+
+        .subject.featured .subject-name, .subject.featured .subject-count {
+            color: #172a2c;
+        }
+
+    .popular-grid {
+        display: grid;
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+        gap: 12px;
+    }
+
+    .authors-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 11px;
+    }
+
+    .author-card {
+        padding: 12px;
+        border: 1px solid var(--border);
+        background: #0a252a;
+        border-radius: 10px;
+    }
+
+    .author-top {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        margin-bottom: 8px;
+    }
+
+    .author-avatar {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background: #a6c3b5;
+        color: #173238;
+        display: grid;
+        place-items: center;
+        font-weight: bold;
+        font-size: 12px;
+    }
+
+    .author-name {
+        font-size: 11px;
+        font-weight: bold;
+    }
+
+    .author-books {
+        color: var(--yellow);
+        font-size: 11px;
+    }
+</style>
+<div class="dashboard" style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; padding: 20px;">
+    <div class="left-column">
+        <section style="margin-bottom: 30px;" id="previous">
+            <div class="section-head">
+                <h1>Thư Viện Sách</h1>
+                <a class="action" href="@Url.Action("Create", "Books")">+ Thêm Sách Mới</a>
+            </div>
+            <div class="books-row searchable">
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR15D0604N7p2l-QZlBMcCse_4uCPdAvlPhaZizAGsa9g&s=10" alt="Clean Code">
+                    <div class="book-title">Clean Code</div>
+                    <div class="book-author">Robert C. Martin</div>
+                    <div class="book-price">450.000 đ</div>
+                    <div class="progress"><span style="width:100%"></span></div>
+                    <div class="progress-label">Kho: 10</div>
+                </article>
+
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTgNMwaPro0sfOHPy4GrDtWxtg3BpVRUn_UTlWBOY90ew&s=10" alt="Cho Tôi Xin Một Vé Đi Tuổi Thơ">
+                    <div class="book-title">Cho Tôi Xin Một Vé...</div>
+                    <div class="book-author">Nguyễn Nhật Ánh</div>
+                    <div class="book-price">85.000 đ</div>
+                    <div class="progress"><span style="width:100%"></span></div>
+                    <div class="progress-label">Kho: 15</div>
+                </article>
+
+
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQc6LdO7h-XyLftfjDQZga2DEre7B5_H_YR2QGE_eZ6kw&s=10" alt="Đắc Nhân Tâm">
+                    <div class="book-title">Đắc Nhân Tâm</div>
+                    <div class="book-author">Dale Carnegie</div>
+                    <div class="book-price">98.000 đ</div>
+                    <div class="progress"><span style="width:100%"></span></div>
+                    <div class="progress-label">Kho: 20</div>
+                </article>
+
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTPr-kAQ_MmedAzAFRjSzc_I8wkCzqz0XXUmQtXuu4HRw&s" alt="Lược Sử Thời Gian">
+                    <div class="book-title">Lược Sử Thời Gian</div>
+                    <div class="book-author">Stephen Hawking</div>
+                    <div class="book-price">150.000 đ</div>
+                    <div class="progress"><span style="width:100%"></span></div>
+                    <div class="progress-label">Kho: 8</div>
+                </article>
+
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTtXyDh7iHQEMeZjNO1QuO_xag6HKQR4KJ0DnxdPKt0Bw&s=10" alt="Của Cải Của Các Dân Tộc">
+                    <div class="book-title">Của Cải Các Dân Tộc</div>
+                    <div class="book-author">Adam Smith</div>
+                    <div class="book-price">220.000 đ</div>
+                    <div class="progress"><span style="width:100%"></span></div>
+                    <div class="progress-label">Kho: 5</div>
+                </article>
+            </div>
+        </section>
+
+        <section style="margin-bottom: 30px;" id="subjects">
+            <div class="section-head">
+                <h2>Subjects section</h2>
+            </div>
+            <div class="subject-grid">
+                <div class="subject">
+                    <span class="subject-name">Science</span>
+                    <div class="subject-count">1.2k<small>Books available</small></div>
+                </div>
+                <div class="subject">
+                    <span class="subject-name">Arts</span>
+                    <div class="subject-count">1.8K<small>Books available</small></div>
+                </div>
+                <div class="subject">
+                    <span class="subject-name">Commerce</span>
+                    <div class="subject-count">230<small>Books available</small></div>
+                </div>
+                <div class="subject">
+                    <span class="subject-name">Design</span>
+                    <div class="subject-count">80<small>Books available</small></div>
+                </div>
+                <div class="subject featured">
+                    <span class="subject-name">Cooking</span>
+                    <div class="subject-count">180<small>Books available</small></div>
+                </div>
+                <div class="subject">
+                    <span class="subject-name">Others</span>
+                    <div class="subject-count">900<small>Books available</small></div>
+                </div>
+            </div>
+        </section>
+    </div>
+
+    <div class="right-column">
+        <section style="margin-bottom: 30px;" id="new-books">
+            <div class="section-head">
+                <h2>Popular books</h2>
+                <a class="action" href="#">Show all</a>
+            </div>
+            <div class="popular-grid searchable">
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRVJPjEQOmNe4_HrFeOWNjkQfyMlUd7o3F4xDPzf-aidQ&s=10" alt="Mắt Biếc">
+                    <div class="book-title">Mắt Biếc</div>
+                    <div class="book-author">Nguyễn Nhật Ánh</div>
+                    <div class="book-price">110.000 đ</div>
+                </article>
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS2Zytco3TSmnIodEyukjZXj2pjzUmEHYStuiMBpi0W5g&s=10" alt="The Clean Coder">
+                    <div class="book-title">The Clean Coder</div>
+                    <div class="book-author">Robert C. Martin</div>
+                    <div class="book-price">480.000 đ</div>
+                </article>
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTvWG5kd3PF1HMyEMRaFfb1yLucl1LDzBKcMejKvMQlag&s=10" alt="Quẳng Gánh Lo Đi">
+                    <div class="book-title">Quẳng Gánh Lo Đi...</div>
+                    <div class="book-author">Dale Carnegie</div>
+                    <div class="book-price">89.000 đ</div>
+                </article>
+                <article class="book-card">
+                    <img class="cover" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSNmU6aYEM1_gErGKHtjH_y-seTBKqp5kbaKLgoXqs8aw&s=10" alt="Atomic Habits">
+                    <div class="book-title">Atomic Habits</div>
+                    <div class="book-author">James Clear</div>
+                    <div class="book-price">120.000 đ</div>
+                </article>
+            </div>
+        </section>
+
+        <section style="margin-bottom: 30px;" id="authors">
+            <div class="section-head">
+                <h2>Writers and Authors</h2>
+                <a class="action" href="#">Show all</a>
+            </div>
+            <div class="authors-grid">
+                <article class="author-card">
+                    <div class="author-top"><span class="author-avatar">N</span><span class="author-name">Nguyễn Nhật Ánh</span></div>
+                    <div class="author-books">2 Books</div>
+                </article>
+                <article class="author-card">
+                    <div class="author-top"><span class="author-avatar">R</span><span class="author-name">Robert C. Martin</span></div>
+                    <div class="author-books">2 Books</div>
+                </article>
+                <article class="author-card">
+                    <div class="author-top"><span class="author-avatar">D</span><span class="author-name">Dale Carnegie</span></div>
+                    <div class="author-books">2 Books</div>
+                </article>
+            </div>
+        </section>
+    </div>
+</div>

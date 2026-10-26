@@ -1,0 +1,124 @@
+﻿@{
+    ViewBag.Title = "Thêm Mới Sách";
+    Layout = "~/Views/Shared/_LibraryLayout.cshtml";
+}
+
+<style>
+    .form-container {
+        max-width: 650px;
+        background: var(--card);
+        border: 1px solid var(--border);
+        border-radius: 14px;
+        padding: 35px;
+        margin: 20px auto;
+        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+    }
+
+        .form-container h2 {
+            color: var(--yellow);
+            margin-bottom: 25px;
+            font-size: 22px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 12px;
+        }
+
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-size: 13px;
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+    .form-control {
+        width: 100%;
+        background: #173a40;
+        border: 1px solid var(--border);
+        border-radius: 8px;
+        padding: 11px 16px;
+        color: white;
+        outline: none;
+        font-size: 14px;
+        transition: border-color 0.2s;
+    }
+
+        .form-control:focus {
+            border-color: var(--yellow);
+        }
+
+    input[type="file"].form-control {
+        padding: 8px;
+        cursor: pointer;
+    }
+
+    .btn-submit {
+        background: var(--yellow);
+        color: #071e22;
+        border: none;
+        padding: 11px 24px;
+        border-radius: 8px;
+        font-weight: bold;
+        cursor: pointer;
+        font-size: 14px;
+        transition: opacity 0.2s;
+    }
+
+        .btn-submit:hover {
+            opacity: 0.9;
+        }
+
+    .btn-back {
+        color: var(--muted);
+        text-decoration: none;
+        margin-right: 20px;
+        font-size: 14px;
+    }
+
+        .btn-back:hover {
+            color: white;
+        }
+
+    .preview-img {
+        max-width: 130px;
+        margin-top: 12px;
+        border-radius: 8px;
+        border: 1px solid var(--border);
+    }
+</style>
+
+<div class="form-container">
+    <h2>Thêm Mới Sách Vào Thư Viện</h2>
+
+    @using (Html.BeginForm("Create", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <div class="form-group">
+            <label>Tên Sách *</label>
+            @Html.TextBox("Title", null, new { @class = "form-control", @placeholder = "Nhập tên sách..." })
+        </div>
+
+        <div class="form-group">
+            <label>Tác Giả *</label>
+            @Html.TextBox("Author", null, new { @class = "form-control", @placeholder = "Nhập tên tác giả..." })
+        </div>
+
+        <div class="form-group">
+            <label>Ảnh Bìa Sách</label>
+            <input type="file" name="fileInput" id="imageInput" class="form-control" />
+            <img id="ingPreview" class="preview-img" style="display:none;" alt="Xem trước ảnh bìa" />
+        </div>
+
+        <div style="display: flex; align-items: center; margin-top: 30px;">
+            <a href="@Url.Action("Index")" class="btn-back">Quay lại</a>
+            <button type="submit" class="btn-submit">Lưu Lại</button>
+        </div>
+    }
+</div>
+@section scripts {
+    <script src="~/Scripts/previewImage.js"></script>
+}
