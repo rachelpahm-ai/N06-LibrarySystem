@@ -1,124 +1,91 @@
-﻿@{
-    ViewBag.Title = "Thêm Mới Sách";
+﻿@model N06_LibrarySystem.Models.Book
+
+@{
+    ViewBag.Title = "Create";
     Layout = "~/Views/Shared/_LibraryLayout.cshtml";
 }
 
-<style>
-    .form-container {
-        max-width: 650px;
-        background: var(--card);
-        border: 1px solid var(--border);
-        border-radius: 14px;
-        padding: 35px;
-        margin: 20px auto;
-        box-shadow: 0 8px 24px rgba(0,0,0,0.3);
-    }
+<h2>Create</h2>
 
-        .form-container h2 {
-            color: var(--yellow);
-            margin-bottom: 25px;
-            font-size: 22px;
-            border-bottom: 1px solid var(--border);
-            padding-bottom: 12px;
-        }
 
-    .form-group {
-        margin-bottom: 20px;
-    }
+@using (Html.BeginForm("Create", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
+{
+    @Html.AntiForgeryToken()
 
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-size: 13px;
-            color: var(--muted);
-            font-weight: 600;
-        }
-
-    .form-control {
-        width: 100%;
-        background: #173a40;
-        border: 1px solid var(--border);
-        border-radius: 8px;
-        padding: 11px 16px;
-        color: white;
-        outline: none;
-        font-size: 14px;
-        transition: border-color 0.2s;
-    }
-
-        .form-control:focus {
-            border-color: var(--yellow);
-        }
-
-    input[type="file"].form-control {
-        padding: 8px;
-        cursor: pointer;
-    }
-
-    .btn-submit {
-        background: var(--yellow);
-        color: #071e22;
-        border: none;
-        padding: 11px 24px;
-        border-radius: 8px;
-        font-weight: bold;
-        cursor: pointer;
-        font-size: 14px;
-        transition: opacity 0.2s;
-    }
-
-        .btn-submit:hover {
-            opacity: 0.9;
-        }
-
-    .btn-back {
-        color: var(--muted);
-        text-decoration: none;
-        margin-right: 20px;
-        font-size: 14px;
-    }
-
-        .btn-back:hover {
-            color: white;
-        }
-
-    .preview-img {
-        max-width: 130px;
-        margin-top: 12px;
-        border-radius: 8px;
-        border: 1px solid var(--border);
-    }
-</style>
-
-<div class="form-container">
-    <h2>Thêm Mới Sách Vào Thư Viện</h2>
-
-    @using (Html.BeginForm("Create", "Books", FormMethod.Post, new { enctype = "multipart/form-data" }))
-    {
-        @Html.AntiForgeryToken()
-
+    <div class="form-horizontal">
+        <h4>Book</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
         <div class="form-group">
-            <label>Tên Sách *</label>
-            @Html.TextBox("Title", null, new { @class = "form-control", @placeholder = "Nhập tên sách..." })
+            @Html.LabelFor(model => model.Title, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Title, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            <label>Tác Giả *</label>
-            @Html.TextBox("Author", null, new { @class = "form-control", @placeholder = "Nhập tên tác giả..." })
+            @Html.LabelFor(model => model.CategoryID, "CategoryID", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("CategoryID", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.CategoryID, "", new { @class = "text-danger" })
+            </div>
         </div>
 
         <div class="form-group">
-            <label>Ảnh Bìa Sách</label>
-            <input type="file" name="fileInput" id="imageInput" class="form-control" />
-            <img id="ingPreview" class="preview-img" style="display:none;" alt="Xem trước ảnh bìa" />
+            @Html.LabelFor(model => model.Price, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Price, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Price, "", new { @class = "text-danger" })
+            </div>
         </div>
 
-        <div style="display: flex; align-items: center; margin-top: 30px;">
-            <a href="@Url.Action("Index")" class="btn-back">Quay lại</a>
-            <button type="submit" class="btn-submit">Lưu Lại</button>
+        <div class="form-group">
+            @Html.LabelFor(model => model.StockQuantity, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.StockQuantity, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.StockQuantity, "", new { @class = "text-danger" })
+            </div>
         </div>
-    }
+
+        <div class="form-group">
+            <label class="control-label col-md-2">Ảnh bìa sách</label>
+            <div class="col-md-10">
+                <input type="file" name="imageFile" accept=".jpg,.jpeg,.png" class="form-control" />
+                @Html.ValidationMessageFor(model => model.ImageUrl, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Description, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.IsActive, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                <div class="checkbox">
+                    @Html.EditorFor(model => model.IsActive)
+                    @Html.ValidationMessageFor(model => model.IsActive, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Create" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
 </div>
-@section scripts {
-    <script src="~/Scripts/previewImage.js"></script>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
 }
