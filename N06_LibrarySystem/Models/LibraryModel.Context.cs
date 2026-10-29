@@ -13,10 +13,10 @@ namespace N06_LibrarySystem.Models
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     
-    public partial class LibraryManagementEntities : DbContext
+    public partial class LibraryManagementEntities2 : DbContext
     {
-        public LibraryManagementEntities()
-            : base("name=LibraryManagementEntities")
+        public LibraryManagementEntities2()
+            : base("name=LibraryManagementEntities2")
         {
         }
     
@@ -31,7 +31,5 @@ namespace N06_LibrarySystem.Models
         public virtual DbSet<Loan> Loan { get; set; }
         public virtual DbSet<LoanDetail> LoanDetail { get; set; }
         public virtual DbSet<Member> Member { get; set; }
-        public virtual DbSet<Account> Account { get; set; }
-        public virtual DbSet<Reservation> Reservation { get; set; }
     }
 }
