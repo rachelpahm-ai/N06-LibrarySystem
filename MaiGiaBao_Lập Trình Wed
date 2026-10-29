@@ -1,0 +1,8 @@
+{
+  "solution": {
+    "path": "N06_LibrarySystem.sln",
+    "projects": [
+      "N06_LibrarySystem\\N06_LibrarySystem.csproj"
+    ]
+  }
+}

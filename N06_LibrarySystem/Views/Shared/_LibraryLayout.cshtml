@@ -1,0 +1,112 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@ViewBag.Title - BookNest</title>
+    <link href="~/Content/library.css" rel="stylesheet" />
+    <style>
+        html {
+            scroll-behavior: smooth;
+        }
+
+        .sidebar {
+            position: relative;
+            z-index: 1000;
+        }
+
+        .topbar {
+            position: relative;
+            z-index: 999;
+        }
+
+        .side-link, .nav a {
+            pointer-events: auto !important;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="page">
+        <div class="app">
+
+            <aside class="sidebar">
+                <div class="logo">♧</div>
+                <a class="side-link active" href="@Url.Action("Index", "Books")" title="Library">⌂</a>
+                <a class="side-link" href="@Url.Action("Index", "Books")#previous" title="Previous Reading">▤</a>
+                <a class="side-link" href="@Url.Action("Index", "Books")#authors" title="Authors">♧</a>
+                <a class="side-link" href="@Url.Action("Index", "Books")#subjects" title="Subjects">♢</a>
+                <a class="side-link" href="@Url.Action("Create", "Books")" title="Add Book">🛒</a>
+                <a class="side-link" href="#footer" title="Footer">⚙</a>
+                <a class="side-link side-bottom" href="#footer">⇥</a>
+            </aside>
+
+            <main>
+                <header class="topbar">
+                    <nav class="nav">
+                        <a class="active" href="@Url.Action("Index", "Books")">Library</a>
+                        <a href="@Url.Action("Index", "Books")#new-books">Books</a>
+                        <a href="@Url.Action("Index", "Books")#authors">Authors</a>
+                    </nav>
+
+                    <label class="search">
+                        <span>⌕</span>
+                        <input id="searchInput" type="search" placeholder="Search books...">
+                    </label>
+
+                    <div class="profile">
+                        <span>Mai Gia Bảo</span>
+                        <span class="avatar">GB</span>
+                    </div>
+                </header>
+
+                @RenderBody()
+
+            </main>
+        </div>
+
+        <footer id="footer">
+            <div class="footer-brand">
+                <span class="footer-logo">♧</span>
+                <div>
+                    <strong>BookNest</strong>
+                    <small style="font-size: 11px;">Read more. Grow further.</small>
+                </div>
+            </div>
+
+            <nav class="footer-nav">
+                <a href="@Url.Action("Index", "Books")">Home</a>
+                <span>|</span>
+                <a href="@Url.Action("Index", "Books")#previous">Library</a>
+                <span>|</span>
+                <a href="@Url.Action("Index", "Books")#authors">Authors</a>
+                <span>|</span>
+                <a href="mailto:baomai@st.huflit.edu.vn">Contact</a>
+            </nav>
+
+            <div class="copyright">
+                © 2026 BookNest. All rights reserved. (HUFLIT Student)
+            </div>
+        </footer>
+    </div>
+
+    <script>
+                document.addEventListener("DOMContentLoaded", function () {
+                    var searchInput = document.getElementById("searchInput");
+                    if (searchInput) {
+                        searchInput.addEventListener("input", function () {
+                            var keyword = searchInput.value ? searchInput.value.trim().toLowerCase() : "";
+                            var articles = document.querySelectorAll(".searchable article");
+                            articles.forEach(function (element) {
+                                var card = element;
+                                var textContent = card.innerText ? card.innerText.toLowerCase() : "";
+                                card.style.display = textContent.indexOf(keyword) !== -1 ? "" : "none";
+                            });
+                        });
+                    }
+                });
+    </script>
+
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,207 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --bg: #071e22;
+    --sidebar: #102f35;
+    --card: #103239;
+    --border: #20464c;
+    --text: #e7f2f2;
+    --muted: #91afb3;
+    --yellow: #f8d64e;
+}
+
+body, html {
+    height: 100%;
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+}
+
+.page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.app {
+    display: flex;
+    flex: 1;
+}
+
+/* SIDEBAR BÊN TRÁI */
+.sidebar {
+    width: 90px;
+    flex-shrink: 0;
+    background: var(--sidebar);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 30px 0;
+    gap: 25px;
+}
+
+.logo {
+    color: var(--yellow);
+    font-size: 32px;
+    margin-bottom: 20px;
+}
+
+.side-link {
+    width: 45px;
+    height: 45px;
+    display: grid;
+    place-items: center;
+    border-radius: 12px;
+    color: #a6c4c7;
+    text-decoration: none;
+    font-size: 22px;
+    transition: all 0.2s ease;
+}
+
+    .side-link:hover,
+    .side-link.active {
+        background: #20474e;
+        color: white;
+    }
+
+.side-bottom {
+    margin-top: auto;
+}
+
+/* MAIN CONTENT */
+main {
+    flex: 1;
+    min-width: 0;
+    padding: 28px 32px;
+}
+
+.topbar {
+    display: flex;
+    align-items: center;
+    gap: 25px;
+    margin-bottom: 35px;
+}
+
+.nav {
+    display: flex;
+    gap: 30px;
+}
+
+    .nav a {
+        color: var(--muted);
+        text-decoration: none;
+        font-size: 14px;
+    }
+
+        .nav a.active {
+            color: white;
+            border-bottom: 2px solid white;
+            padding-bottom: 8px;
+        }
+
+.search {
+    margin-left: auto;
+    width: 250px;
+    background: #173a40;
+    padding: 10px 16px;
+    border-radius: 30px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+    .search input {
+        width: 100%;
+        border: none;
+        outline: none;
+        color: white;
+        background: transparent;
+    }
+
+.profile {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+}
+
+.avatar {
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    background: var(--yellow);
+    color: #173238;
+    display: grid;
+    place-items: center;
+    font-weight: bold;
+}
+
+/* DASHBOARD GRID RESPONSIVE */
+.dashboard {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 30px;
+}
+
+@media (max-width: 1050px) {
+    .dashboard {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* FOOTER DÍNH ĐÁY TRANG */
+footer {
+    width: 100%;
+    border-top: 1px solid #285158;
+    background: #0a252a;
+    padding: 20px 5%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    margin-top: auto;
+}
+
+.footer-brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.footer-logo {
+    font-size: 28px;
+    color: var(--yellow);
+}
+
+.footer-brand strong {
+    display: block;
+    color: white;
+    font-size: 16px;
+}
+
+.footer-nav {
+    display: flex;
+    gap: 15px;
+    font-size: 13px;
+}
+
+    .footer-nav a {
+        color: var(--muted);
+        text-decoration: none;
+    }
+
+        .footer-nav a:hover {
+            color: var(--yellow);
+        }
+
+.copyright {
+    font-size: 12px;
+}
+
+html {
+    scroll-behavior: smooth;
+}

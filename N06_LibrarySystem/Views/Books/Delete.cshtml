@@ -1,0 +1,54 @@
+﻿@model N06_LibrarySystem.Models.Book
+@{
+    ViewBag.Title = "Xóa Sách - BookNest";
+}
+<header class="bg-[#3b438b] text-white shadow-md">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center gap-3">
+        <div class="bg-orange-500 text-white p-2 rounded flex items-center justify-center font-bold">
+            <i class="fa-solid fa-book-open text-xl"></i>
+        </div>
+        <div>
+            <h1 class="text-xs uppercase tracking-wider font-semibold text-slate-200">SỞ GIÁO DỤC VÀ ĐÀO TẠO HUFLIT</h1>
+            <h2 class="text-base font-bold tracking-tight text-white">KHO HỌC LIỆU ĐIỆN TỬ - BOOKNEST</h2>
+        </div>
+    </div>
+</header>
+
+<div class="max-w-xl mx-auto bg-white p-6 rounded-xl shadow-md border border-slate-200 mt-12 mb-8">
+    <div class="flex items-center justify-between border-b border-slate-100 pb-4 mb-5">
+        <h2 class="text-base font-bold text-red-600 flex items-center gap-2">
+            <i class="fa-solid fa-triangle-exclamation"></i> BẠN CÓ CHẮC MUỐN XÓA SÁCH NÀY?
+        </h2>
+        <a href="@Url.Action("Index", "Books")" class="text-xs font-semibold text-indigo-600 hover:text-indigo-800 hover:underline flex items-center gap-1 transition">
+            ← Quay lại
+        </a>
+    </div>
+
+    <div class="space-y-4 mb-6">
+        <div class="flex gap-4 items-center bg-slate-50 p-4 rounded-lg border border-slate-200">
+            @if (!string.IsNullOrEmpty(Model.ImageUrl))
+            {
+                <img src="@Model.ImageUrl" alt="" class="w-16 h-20 object-cover rounded border border-slate-200 shadow-sm" />
+            }
+            <div>
+                <h3 class="font-bold text-sm text-slate-800">@Model.Title</h3>
+                <p class="text-xs text-slate-500 mt-1">Giá tiền: <span class="font-bold text-emerald-700">@string.Format("{0:N0} đ", Model.Price)</span></p>
+                <p class="text-xs text-slate-500 mt-0.5">Số lượng kho: @Model.StockQuantity</p>
+            </div>
+        </div>
+        <p class="text-xs text-red-500 italic">Lưu ý: Hành động này không thể hoàn tác sau khi xác nhận xóa.</p>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="flex items-center justify-end gap-2 pt-4 border-t border-slate-100">
+            <a href="@Url.Action("Index", "Books")" class="px-4 py-2 bg-slate-200 text-slate-700 text-xs font-bold rounded-lg hover:bg-slate-300 transition">
+                Hủy
+            </a>
+            <button type="submit" class="px-5 py-2 bg-red-600 text-white text-xs font-bold rounded-lg hover:bg-red-700 transition shadow-sm">
+                Xác Nhận Xóa
+            </button>
+        </div>
+    }
+</div>

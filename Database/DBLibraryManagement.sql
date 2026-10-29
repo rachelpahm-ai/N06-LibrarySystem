@@ -122,3 +122,17 @@ CREATE TABLE Reservation (
     FOREIGN KEY (MemberID) REFERENCES Member(MemberID),
     FOREIGN KEY (BookID) REFERENCES Book(BookID)
 );
+
+USE [LibraryManagement];
+GO
+
+ALTER TABLE dbo.Book
+ADD AuthorID INT NULL;
+GO
+
+UPDATE b
+SET b.AuthorID = ba.AuthorID
+FROM dbo.Book AS b
+INNER JOIN dbo.Book_Author AS ba
+    ON b.BookID = ba.BookID;
+GO
