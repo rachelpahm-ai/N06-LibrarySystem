@@ -1,0 +1,266 @@
+CREATE DATABASE LibraryManagement;
+GO
+
+USE LibraryManagement;
+GO
+
+-- ==========================================
+-- 1. Bảng Category (Thể loại)
+-- ==========================================
+CREATE TABLE Category (
+    CategoryID INT IDENTITY(1,1) PRIMARY KEY,
+    CategoryName NVARCHAR(100) NOT NULL
+);
+GO
+
+-- ==========================================
+-- 2. Bảng Author (Tác giả)
+-- ==========================================
+CREATE TABLE Author (
+    AuthorID INT IDENTITY(1,1) PRIMARY KEY,
+    AuthorName NVARCHAR(100) NOT NULL
+);
+GO
+
+-- ==========================================
+-- 3. Bảng Book (Sách)
+-- ==========================================
+CREATE TABLE Book (
+    BookID INT IDENTITY(1,1) PRIMARY KEY,
+    Title NVARCHAR(200) NOT NULL,
+    CategoryID INT NOT NULL,
+    AuthorID INT NOT NULL,
+    Price DECIMAL(18,2) NOT NULL
+        CHECK (Price >= 0),
+    StockQuantity INT NOT NULL
+        CHECK (StockQuantity >= 0),
+    ImageUrl VARCHAR(500),
+    Description NVARCHAR(MAX),
+    IsActive BIT DEFAULT 1,
+
+    CONSTRAINT FK_Book_Category
+        FOREIGN KEY (CategoryID)
+        REFERENCES Category(CategoryID),
+
+    CONSTRAINT FK_Book_Author
+        FOREIGN KEY (AuthorID)
+        REFERENCES Author(AuthorID)
+);
+GO
+
+-- ==========================================
+-- 4. Bảng Book_Author (Liên kết sách - Tác giả)
+-- ==========================================
+CREATE TABLE Book_Author (
+    BookID INT NOT NULL,
+    AuthorID INT NOT NULL,
+
+    CONSTRAINT PK_Book_Author
+        PRIMARY KEY (BookID, AuthorID),
+
+    CONSTRAINT FK_BookAuthor_Book
+        FOREIGN KEY (BookID)
+        REFERENCES Book(BookID)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_BookAuthor_Author
+        FOREIGN KEY (AuthorID)
+        REFERENCES Author(AuthorID)
+        ON DELETE CASCADE
+);
+GO
+
+-- ==========================================
+-- 5. Bảng Member (Thành viên)
+-- ==========================================
+CREATE TABLE Member (
+    MemberID INT IDENTITY(1,1) PRIMARY KEY,
+    FullName NVARCHAR(100) NOT NULL,
+    Email VARCHAR(100) UNIQUE,
+    Phone VARCHAR(20),
+    Address NVARCHAR(255),
+    CardExpiryDate DATE,
+    IsLocked BIT DEFAULT 0
+);
+GO
+
+-- ==========================================
+-- 6. Bảng Loan (Phiếu mượn)
+-- ==========================================
+CREATE TABLE Loan (
+    LoanID INT IDENTITY(1,1) PRIMARY KEY,
+    MemberID INT NOT NULL,
+    LoanDate DATE NOT NULL DEFAULT GETDATE(),
+    DueDate DATE NOT NULL,
+    ReturnDate DATE,
+    TotalFine DECIMAL(18,2) DEFAULT 0
+        CHECK (TotalFine >= 0),
+
+    CONSTRAINT FK_Loan_Member
+        FOREIGN KEY (MemberID)
+        REFERENCES Member(MemberID),
+
+    CONSTRAINT CHK_DueDate
+        CHECK (DueDate >= LoanDate),
+
+    CONSTRAINT CHK_ReturnDate
+        CHECK (
+            ReturnDate IS NULL
+            OR ReturnDate >= LoanDate
+        )
+);
+GO
+
+-- ==========================================
+-- 7. Bảng LoanDetail (Chi tiết phiếu mượn)
+-- ==========================================
+CREATE TABLE LoanDetail (
+    LoanDetailID INT IDENTITY(1,1) PRIMARY KEY,
+    LoanID INT NOT NULL,
+    BookID INT NOT NULL,
+    Quantity INT NOT NULL CHECK (Quantity > 0),
+    FineAmount DECIMAL(18,2) DEFAULT 0
+        CHECK (FineAmount >= 0),
+
+    CONSTRAINT FK_LoanDetail_Loan
+        FOREIGN KEY (LoanID)
+        REFERENCES Loan(LoanID)
+        ON DELETE CASCADE,
+
+    CONSTRAINT FK_LoanDetail_Book
+        FOREIGN KEY (BookID)
+        REFERENCES Book(BookID)
+);
+GO
+
+-- ==========================================
+-- 8. Dữ liệu mẫu: Category
+-- ==========================================
+INSERT INTO Category (CategoryName)
+VALUES
+(N'Lập trình'),
+(N'Kinh tế'),
+(N'Văn học'),
+(N'Kỹ năng sống'),
+(N'Khoa học');
+GO
+
+-- ==========================================
+-- 9. Dữ liệu mẫu: Author
+-- ==========================================
+INSERT INTO Author (AuthorName)
+VALUES
+(N'Nguyễn Nhật Ánh'),
+(N'Robert C. Martin'),
+(N'Dale Carnegie'),
+(N'Stephen Hawking'),
+(N'Adam Smith');
+GO
+
+-- ==========================================
+-- 10. Dữ liệu mẫu: Book
+-- AuthorID được lưu trực tiếp trong bảng Book
+-- ==========================================
+INSERT INTO Book
+    (Title, CategoryID, AuthorID, Price,
+     StockQuantity, ImageUrl, Description, IsActive)
+VALUES
+(N'Clean Code', 1, 2, 450000, 10,
+ 'book-01.jpg',
+ N'Handbook of Agile Software Craftsmanship', 1),
+
+(N'Cho Tôi Xin Một Vé Đi Tuổi Thơ', 3, 1, 85000, 15,
+ 'book-02.jpg',
+ N'Tác phẩm nổi tiếng viết về tuổi thơ của Nguyễn Nhật Ánh', 1),
+
+(N'Đắc Nhân Tâm', 4, 3, 98000, 20,
+ 'book-03.jpg',
+ N'Sách kỹ năng sống và nghệ thuật thu phục lòng người', 1),
+
+(N'Lược Sử Thời Gian', 5, 4, 150000, 8,
+ 'book-04.jpg',
+ N'Cuốn sách kinh điển về vũ trụ học của Stephen Hawking', 1),
+
+(N'Của Cải Của Các Dân Tộc', 2, 5, 220000, 5,
+ 'book-05.jpg',
+ N'Nền tảng kinh tế học cổ điển của Adam Smith', 1),
+
+(N'Mắt Biếc', 3, 1, 110000, 12,
+ 'book-06.jpg',
+ N'Câu chuyện tình yêu đơn phương đầy day dứt', 1),
+
+(N'The Clean Coder', 1, 2, 480000, 7,
+ 'book-07.jpg',
+ N'A Code of Conduct for Professional Programmers', 1),
+
+(N'Quẳng Gánh Lo Đi Mà Vui Sống', 4, 3, 89000, 18,
+ 'book-08.jpg',
+ N'Bí quyết để vượt qua lo lắng và tận hưởng cuộc sống', 1);
+GO
+
+-- ==========================================
+-- 11. Dữ liệu mẫu: Book_Author
+-- Liên kết sách và tác giả
+-- ==========================================
+INSERT INTO Book_Author (BookID, AuthorID)
+VALUES
+(1, 2),
+(2, 1),
+(3, 3),
+(4, 4),
+(5, 5),
+(6, 1),
+(7, 2),
+(8, 3);
+GO
+
+-- ==========================================
+-- 12. Bảng Account (Phân quyền)
+-- Role: Admin, Librarian, Reader
+-- ==========================================
+CREATE TABLE Account (
+    AccountID INT IDENTITY(1,1) PRIMARY KEY,
+    Username VARCHAR(50) UNIQUE NOT NULL,
+    Password VARCHAR(255) NOT NULL,
+    Role NVARCHAR(50) NOT NULL
+);
+GO
+
+-- ==========================================
+-- 13. Bảng Reservation (Đặt trước sách)
+-- ==========================================
+CREATE TABLE Reservation (
+    ReserveID INT IDENTITY(1,1) PRIMARY KEY,
+    MemberID INT NOT NULL,
+    BookID INT NOT NULL,
+    ReserveDate DATETIME DEFAULT GETDATE(),
+    Status NVARCHAR(50) DEFAULT N'Chờ xử lý',
+
+    CONSTRAINT FK_Reservation_Member
+        FOREIGN KEY (MemberID)
+        REFERENCES Member(MemberID),
+
+    CONSTRAINT FK_Reservation_Book
+        FOREIGN KEY (BookID)
+        REFERENCES Book(BookID)
+);
+GO
+
+-- ==========================================
+-- 14. Kiểm tra dữ liệu sau khi tạo
+-- ==========================================
+SELECT COUNT(*) AS TotalCategories FROM Category;
+SELECT COUNT(*) AS TotalAuthors FROM Author;
+SELECT COUNT(*) AS TotalBooks FROM Book;
+SELECT COUNT(*) AS TotalBookAuthors FROM Book_Author;
+SELECT COUNT(*) AS TotalMembers FROM Member;
+SELECT COUNT(*) AS TotalLoans FROM Loan;
+SELECT COUNT(*) AS TotalLoanDetails FROM LoanDetail;
+SELECT COUNT(*) AS TotalAccounts FROM Account;
+SELECT COUNT(*) AS TotalReservations FROM Reservation;
+GO
+
+SELECT BookID, Title, AuthorID
+FROM Book
+ORDER BY BookID;
+GO
